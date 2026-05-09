@@ -1,9 +1,10 @@
 import dotenv from "dotenv";
+import cronService from "./services/cron.service";
 import expressService from "./services/express.service";
 import sequelizeService from "./services/sequelize.service";
 dotenv.config();
 
-const services = [expressService, sequelizeService];
+const services = [expressService, sequelizeService, cronService];
 
 (async () => {
 	try {
