@@ -6,33 +6,89 @@
 This is a simple boilerplate for building REST APIs in Node.js using Express. Intended for use with PostgreSQL using Sequelize ORM.
 
 
-## Getting Started
 
-Clone the repository
+## Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) & [Docker Compose](https://docs.docker.com/compose/install/)
+- [Node.js](https://nodejs.org/) (v16+)
+- [Yarn](https://yarnpkg.com/)
+
+## Project Setup
+
+Follow these steps in order to get the project running locally.
+
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/gadfaria/express-sequelize-boilerplate.git
+git clone https://github.com/Code-X-Rahul/splitwise-mvp.git
+cd splitwise-mvp/
 ```
 
-Enter into the directory
+### 2. Start the PostgreSQL database
+
+Spin up a Postgres 16 container using the included `docker-compose.yml`:
+
 ```bash
-cd express-sequelize-boilerplate/
+docker compose up -d
 ```
 
-Install the dependencies
-```bash
-yarn
-```
+This starts a PostgreSQL instance on **port 5432** with the following defaults:
 
-Set the environment variables
+| Variable | Value |
+| --- | --- |
+| `POSTGRES_USER` | `splitwise_mvp` |
+| `POSTGRES_PASSWORD` | `splitwise_mvp` |
+| `POSTGRES_DB` | `splitwise_mvp_dev` |
+
+> **Tip:** Verify the container is running with `docker ps`.
+
+### 3. Configure environment variables
+
 ```bash
 cp .env.example .env
 ```
 
-Running the boilerplate:
+Open `.env` and fill in values matching the Docker Compose config:
+
+```env
+# EXPRESS
+SERVER_PORT=8000
+
+# ENVIRONMENT
+NODE_ENV=development
+
+# JWT
+SERVER_JWT=true
+SERVER_JWT_SECRET=your_jwt_secret_here
+SERVER_JWT_TIMEOUT=24h
+
+# DATABASE (must match docker-compose.yml)
+DB_DIALECT=postgres
+DB_HOST=localhost
+DB_USER=splitwise_mvp
+DB_PASS=splitwise_mvp
+DB_NAME=splitwise_mvp_dev
+```
+
+### 4. Install dependencies
+
+```bash
+yarn
+```
+
+### 5. Run database migrations
+
+```bash
+yarn sequelize db:migrate
+```
+
+### 6. Start the dev server
+
 ```bash
 yarn dev
 ```
+
+The API will be available at `http://localhost:8000` (or whichever port you set in `.env`).
 
 ## Configuration
 
