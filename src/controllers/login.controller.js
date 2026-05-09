@@ -6,6 +6,7 @@ import {
   UnauthorizedError,
   ValidationError,
 } from "../utils/ApiError";
+import { successResponse } from "../utils/ApiResponse";
 
 let loginController = {
   login: async (req, res, next) => {
@@ -27,7 +28,7 @@ let loginController = {
 
       const token = JwtService.jwtSign(user.id);
 
-      return res.status(200).json({ user, token });
+      return successResponse(res, { user, token });
     } catch (error) {
       next(error);
     }
@@ -37,7 +38,7 @@ let loginController = {
     try {
       JwtService.jwtBlacklistToken(JwtService.jwtGetToken(req));
 
-      res.status(200).json({ msg: "Authorized" });
+      return successResponse(res, { msg: "Authorized" });
     } catch (error) {
       next(error);
     }
