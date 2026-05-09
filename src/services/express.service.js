@@ -28,7 +28,7 @@ const expressService = {
 
       server = express();
       server.use(bodyParser.json());
-      server.use(routes);
+      server.use("/api/v1", routes);
       server.use(globalErrorHandler);
       server.listen(process.env.SERVER_PORT);
       console.log("[EXPRESS] Express initialized");
